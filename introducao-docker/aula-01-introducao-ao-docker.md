@@ -35,38 +35,3 @@ Nesse ambiente, podemos criar e navegar entre arquivos e diretórios, executar c
 
 > O Ubuntu não é responsável por gerenciar os containers. Quem realiza esse gerenciamento é o Docker Engine.
 
-## O que são imagens no Docker?
-As imagens Docker são modelos prontos usados para criar containers.
-
-Elas contêm os arquivos, dependências e configurações necessárias para executar uma aplicação.
-
-**Imagem = modelo pronto**  
-**Container = imagem em execução**
-
-## Comandos WSL
-
-| Comando                      | O que faz                                                                                     |
-| ---------------------------- | --------------------------------------------------------------------------------------------- |
-| `wsl -l -v`                  | Lista as distribuições Linux instaladas no WSL e mostra detalhes como estado e versão do WSL. |
-| `wsl --install -d <name>`    | Instala uma distribuição Linux específica no WSL. Ex.: `wsl --install -d Ubuntu-24.04`.       |
-| `wsl --list --online`        | Lista as distribuições Linux disponíveis para instalação.                                     |
-| `wsl --set-version <name> 1` | Altera uma distribuição específica para usar o WSL 1.                                         |
-| `wsl --list --verbose`       | Mesma função de `wsl -l -v`: lista as distribuições instaladas, estado e versão.              |
-| `mkdir <nome>`               | Cria um novo diretório. Ex.: `mkdir fiap`.                                                    |
-| `cd <diretório>`             | Acessa um diretório. Ex.: `cd fiap`.                                                          |
-| `pwd`                        | Mostra o caminho do diretório atual.                                                          |
-| `ls -la`                     | Lista os arquivos e diretórios, incluindo arquivos ocultos e informações detalhadas.          |
-
-## Comandos Docker
-
-docker version
-docker container
-docker container ls
-docker container ls -la
-docker image ls
-docker container run -it node:18-slim
-docker --help
-
-## Containers executados
-docker container run hello-world
-docker container run node:18-slim
