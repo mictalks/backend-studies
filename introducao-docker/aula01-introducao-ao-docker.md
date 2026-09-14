@@ -35,7 +35,15 @@ Nesse ambiente, podemos criar e navegar entre arquivos e diretórios, executar c
 
 > O Ubuntu não é responsável por gerenciar os containers. Quem realiza esse gerenciamento é o Docker Engine.
 
-## Comandos úteis
+## O que são imagens no Docker?
+As imagens Docker são modelos prontos usados para criar containers.
+
+Elas contêm os arquivos, dependências e configurações necessárias para executar uma aplicação.
+
+**Imagem = modelo pronto**  
+**Container = imagem em execução**
+
+## Comandos WSL
 
 | Comando                      | O que faz                                                                                     |
 | ---------------------------- | --------------------------------------------------------------------------------------------- |
@@ -48,3 +56,17 @@ Nesse ambiente, podemos criar e navegar entre arquivos e diretórios, executar c
 | `cd <diretório>`             | Acessa um diretório. Ex.: `cd fiap`.                                                          |
 | `pwd`                        | Mostra o caminho do diretório atual.                                                          |
 | `ls -la`                     | Lista os arquivos e diretórios, incluindo arquivos ocultos e informações detalhadas.          |
+
+## Comandos Docker
+
+docker version
+docker container
+docker container ls
+docker container ls -la
+docker image ls
+docker container run -it node:18-slim
+docker --help
+
+## Containers executados
+docker container run hello-world
+docker container run node:18-slim
