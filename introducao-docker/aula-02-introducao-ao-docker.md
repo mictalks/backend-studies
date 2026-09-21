@@ -36,7 +36,7 @@ Elas contêm os arquivos, dependências e configurações necessárias para exec
 | `docker container run -it node:18-slim` | Cria e executa um container utilizando a imagem `node:18-slim` em modo interativo. |
 | `docker --help` | Exibe os comandos e opções disponíveis no Docker. |
 
-## Containers executados
+## Contâineres executados
 
 ### Hello World
 

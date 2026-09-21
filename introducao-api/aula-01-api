@@ -1,0 +1,302 @@
+# Aula 01 - O que é uma API?
+
+## O que veremos nessa aula
+
+* O que são APIs
+* Componentes essenciais de uma API
+* Como as APIs permitem a comunicação entre sistemas
+* O que são endpoints
+* Como utilizar APIs na prática
+
+---
+
+## O que é uma API?
+
+**API** significa **Application Programming Interface** (*Interface de Programação de Aplicações*).
+
+Uma API é uma interface que permite que **diferentes sistemas, aplicações ou serviços se comuniquem entre si**.
+
+Ela funciona como uma intermediária: uma aplicação faz uma solicitação para a API, a API processa essa solicitação e retorna uma resposta.
+
+### Exemplo
+
+Imagine um aplicativo de previsão do tempo.
+
+O aplicativo não precisa possuir todas as informações meteorológicas dentro dele. Ele pode utilizar uma API de clima para solicitar informações como:
+
+* Temperatura atual
+* Previsão dos próximos dias
+* Umidade
+* Condições climáticas
+
+Exemplo de comunicação:
+
+```text
+Aplicação → API → Sistema/Servidor
+           ↓
+Aplicação ← Resposta
+```
+
+---
+
+## Por que utilizar APIs?
+
+APIs permitem reutilizar funcionalidades e dados de outros sistemas sem precisar desenvolver tudo do zero.
+
+Alguns exemplos:
+
+* Login com Google
+* Pagamentos com cartão
+* Consulta de endereço pelo CEP
+* Mapas e localização
+* Previsão do tempo
+* Integração com redes sociais
+* Consulta de produtos ou usuários
+
+---
+
+## Como funciona uma API?
+
+De forma simplificada, uma aplicação envia uma **requisição (request)** para a API.
+
+A API processa essa requisição e retorna uma **resposta (response)**.
+
+```text
+Cliente → Request → API → Servidor
+Cliente ← Response ← API ← Servidor
+```
+
+O **cliente** pode ser, por exemplo:
+
+* Um site
+* Um aplicativo mobile
+* Um sistema web
+* Outra API
+
+---
+
+## Componentes principais de uma API
+
+Uma API normalmente possui alguns elementos importantes:
+
+### URL
+
+É o endereço utilizado para acessar a API.
+
+Exemplo:
+
+```text
+https://api.exemplo.com
+```
+
+### Endpoint
+
+É um endereço específico dentro da API responsável por determinada funcionalidade ou recurso.
+
+Exemplo:
+
+```text
+https://api.exemplo.com/users
+```
+
+Nesse exemplo:
+
+```text
+https://api.exemplo.com
+```
+
+é a URL base da API.
+
+E:
+
+```text
+/users
+```
+
+é o **endpoint** responsável por acessar informações relacionadas aos usuários.
+
+---
+
+## O que são endpoints?
+
+Um **endpoint** é um ponto de acesso específico de uma API.
+
+É através dos endpoints que uma aplicação faz solicitações para consultar, criar, alterar ou remover informações.
+
+Por exemplo:
+
+```text
+GET /users
+```
+
+Pode retornar uma lista de usuários.
+
+```text
+GET /users/10
+```
+
+Pode retornar o usuário que possui o ID `10`.
+
+```text
+POST /users
+```
+
+Pode ser utilizado para criar um novo usuário.
+
+Cada endpoint normalmente representa um **recurso ou uma ação disponível na API**.
+
+---
+
+## Métodos HTTP
+
+Ao trabalhar com APIs REST, utilizamos métodos HTTP para indicar qual operação queremos realizar.
+
+| Método   | Função                            |
+| -------- | --------------------------------- |
+| `GET`    | Buscar informações                |
+| `POST`   | Criar informações                 |
+| `PUT`    | Atualizar um recurso inteiro      |
+| `PATCH`  | Atualizar parcialmente um recurso |
+| `DELETE` | Remover informações               |
+
+Exemplo:
+
+```text
+GET /users
+```
+
+Solicita a lista de usuários.
+
+```text
+POST /users
+```
+
+Envia dados para criar um novo usuário.
+
+---
+
+## Request e Response
+
+### Request
+
+A **request** é a solicitação enviada pelo cliente para a API.
+
+Ela pode conter informações como:
+
+* URL
+* Endpoint
+* Método HTTP
+* Headers
+* Parâmetros
+* Body
+
+### Response
+
+A **response** é a resposta que a API retorna após processar a requisição.
+
+Normalmente ela contém:
+
+* Status da requisição
+* Dados solicitados
+* Mensagens de erro, quando necessário
+
+Muitas APIs retornam os dados no formato **JSON**.
+
+Exemplo:
+
+```json
+{
+  "id": 1,
+  "name": "Milena",
+  "email": "milena@email.com"
+}
+```
+
+---
+
+## Status HTTP
+
+As APIs também utilizam **códigos de status HTTP** para informar o resultado da requisição.
+
+Alguns dos mais comuns:
+
+| Código | Significado                      |
+| ------ | -------------------------------- |
+| `200`  | Requisição realizada com sucesso |
+| `201`  | Recurso criado com sucesso       |
+| `400`  | Requisição inválida              |
+| `401`  | Não autorizado                   |
+| `403`  | Acesso proibido                  |
+| `404`  | Recurso não encontrado           |
+| `500`  | Erro interno do servidor         |
+
+---
+
+## APIs mais utilizadas
+
+Alguns exemplos de APIs disponíveis para desenvolvedores:
+
+### Google APIs
+
+```text
+https://cloud.google.com/apis
+```
+
+O Google disponibiliza APIs para diversos serviços, como:
+
+* Google Maps
+* Google Drive
+* YouTube
+* Google Cloud
+
+### Marvel API
+
+```text
+https://developer.marvel.com/
+```
+
+Permite consultar informações relacionadas ao universo Marvel, como personagens, histórias e quadrinhos.
+
+---
+
+## Representação de uma API
+
+![Representação de uma API](./api.png)
+
+
+Exemplo:
+
+```markdown
+![Representação de uma API](./images/api.png)
+```
+
+---
+
+## Resumo
+
+Uma API permite a comunicação entre diferentes sistemas.
+
+O fluxo normalmente funciona da seguinte forma:
+
+```text
+Cliente
+   ↓
+Request
+   ↓
+API / Endpoint
+   ↓
+Servidor
+   ↓
+Response
+   ↓
+Cliente
+```
+
+Os principais conceitos apresentados nesta aula foram:
+
+* **API:** interface utilizada para comunicação entre sistemas.
+* **Endpoint:** endereço específico utilizado para acessar determinado recurso da API.
+* **Request:** solicitação enviada para a API.
+* **Response:** resposta retornada pela API.
+* **Método HTTP:** define qual operação será realizada.
+* **Status HTTP:** informa o resultado da requisição.

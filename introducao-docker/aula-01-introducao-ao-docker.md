@@ -17,9 +17,9 @@ O Docker e os containers possuem um objetivo parecido com o de uma VM (Virtual M
 
 ---
 
-## O que é um Container?
+## O que é um Contâiner?
 
-O Container é um ambiente isolado que permite executar diferentes aplicações em uma mesma máquina, mantendo seus processos separados uns dos outros.
+O Contâiner é um ambiente isolado que permite executar diferentes aplicações em uma mesma máquina, mantendo seus processos separados uns dos outros.
 
 No Docker, é muito comum utilizar containers Linux. Alguns recursos importantes do Linux para o funcionamento dos containers são:
 
