@@ -1,0 +1,15 @@
+# Aula 03 - gRPC com Node
+
+## O que veremos nessa aula
+
+Introdução ao gRPC, um framework desenvolvido pelo Google. Como o gRPC pode ser utilizado para comunicação eficiente entre serviços distribuídos, aproveitando tecnologias modernas como HTTP/2 e Protocol Buffers (protobuf).
+
+## O que é gRPC?
+
+O gRPC foi desenvolvido pelo Google com foco em ser um serviço de alto desempenho para atender chamadas RPC (Remote Call Procedures) ou no português "Chamada de Protocolo Remoto". Ele é open source e pode ser executado em qualquer ambiente, independentemente de linguagem de programação ou plataforma. O gRPC tem suporte a load balance, tracing, health-check e autenticação.
+
+## Mas o que é exatamente o RPC (Remote Call Procedures)?
+
+O RPC (Remote Procedure Call) é uma tecnologia para desenvolvimento de programas distribuídos client/server de comunicação de alto nível no sistema operacional.
+
+O gRPC trabalha com Protobuf (Protocol buffers), método criado e utilizado pelo Google para serializar dados estruturados, tornando a comunicação entre serviços mais eficiente. Ele é uma forma simples e agnóstica com relação a linguagem de se definir uma estrutura de dados com XML, só que mais rápido e mais simples.

@@ -1,0 +1,677 @@
+# Aula 04 - GraphQL com NodeJS
+
+## O que veremos nessa aula
+
+* O que é GraphQL
+* Como o GraphQL pode facilitar a integração entre sistemas
+* Conceitos e práticas fundamentais do GraphQL
+* História e origem do GraphQL
+* Como o GraphQL resolve alguns problemas comuns encontrados em APIs REST
+* Como realizar consultas específicas que retornam exatamente os dados necessários
+* O que são Schemas, Types, Queries, Mutations e Resolvers
+
+---
+
+## O que é GraphQL?
+
+GraphQL é uma **linguagem de consulta para APIs** e também um ambiente de execução responsável por processar essas consultas.
+
+Ele permite que o cliente informe exatamente quais dados deseja receber.
+
+Por exemplo, se temos um usuário com várias informações:
+
+```json
+{
+  "id": 1,
+  "name": "Milena",
+  "email": "milena@email.com",
+  "age": 23,
+  "address": "São Paulo"
+}
+```
+
+Se o cliente precisar apenas do `name` e do `email`, ele pode solicitar somente esses campos:
+
+```graphql
+query {
+  user {
+    name
+    email
+  }
+}
+```
+
+O servidor retornaria:
+
+```json
+{
+  "data": {
+    "user": {
+      "name": "Milena",
+      "email": "milena@email.com"
+    }
+  }
+}
+```
+
+Ou seja:
+
+**O cliente escolhe exatamente quais dados deseja receber.**
+
+---
+
+## Origem do GraphQL
+
+O GraphQL foi desenvolvido pelo **Facebook (atual Meta)** em 2012.
+
+Ele surgiu para resolver dificuldades encontradas no desenvolvimento de aplicações que precisavam consumir grandes quantidades de dados através de APIs.
+
+Em 2015, o GraphQL foi disponibilizado publicamente como uma tecnologia open source.
+
+---
+
+## Problemas comuns quando trabalhamos com REST
+
+APIs REST funcionam muito bem em diversos cenários, mas dependendo da aplicação podem surgir alguns desafios.
+
+### Tráfego de dados desnecessário
+
+Em uma API REST, um endpoint pode retornar informações que o cliente não precisa naquele momento.
+
+Por exemplo:
+
+```http
+GET /users/1
+```
+
+Pode retornar:
+
+```json
+{
+  "id": 1,
+  "name": "Milena",
+  "email": "milena@email.com",
+  "age": 23,
+  "address": "São Paulo",
+  "phone": "99999-9999"
+}
+```
+
+Mesmo que o cliente precise apenas do `name`.
+
+Esse problema é conhecido como **over-fetching**, quando recebemos mais dados do que precisamos.
+
+---
+
+### Falta de dados em uma requisição
+
+Também pode acontecer o contrário: o endpoint não retorna todas as informações necessárias.
+
+Por exemplo:
+
+```http
+GET /users/1
+```
+
+Retorna os dados do usuário.
+
+Mas para buscar os posts desse usuário talvez seja necessário realizar outra requisição:
+
+```http
+GET /users/1/posts
+```
+
+Isso é chamado de **under-fetching**, quando precisamos realizar várias requisições para obter todos os dados necessários.
+
+---
+
+### Alta quantidade de endpoints
+
+Em uma API REST podemos ter diversos endpoints:
+
+```text
+GET /users
+GET /users/:id
+GET /users/:id/posts
+GET /posts
+GET /posts/:id
+GET /comments
+```
+
+Dependendo da aplicação, essa quantidade pode crescer bastante.
+
+No GraphQL normalmente temos **um único endpoint**, por exemplo:
+
+```text
+/graphql
+```
+
+As diferentes operações são definidas dentro das consultas enviadas para esse endpoint.
+
+---
+
+### Versionamento de APIs
+
+Em APIs REST é comum encontrar versões diferentes:
+
+```text
+/api/v1/users
+/api/v2/users
+```
+
+Isso pode acontecer quando a estrutura da API muda e aplicações antigas ainda dependem da versão anterior.
+
+Com GraphQL, é possível evoluir o **Schema** adicionando novos campos e marcando campos antigos como obsoletos (`deprecated`) sem necessariamente criar uma nova versão inteira da API.
+
+---
+
+## REST x GraphQL
+
+Em REST, normalmente acessamos diferentes recursos através de diferentes endpoints:
+
+```text
+GET /users
+GET /users/1
+GET /users/1/posts
+```
+
+Já no GraphQL normalmente utilizamos um único endpoint:
+
+```text
+/graphql
+```
+
+E informamos na consulta quais dados queremos receber:
+
+```graphql
+query {
+  user(id: 1) {
+    name
+    email
+    posts {
+      title
+    }
+  }
+}
+```
+
+Assim, podemos obter dados relacionados em uma única consulta.
+
+> GraphQL não substitui obrigatoriamente o REST. As duas abordagens possuem vantagens e podem ser utilizadas dependendo das necessidades do projeto.
+
+---
+
+## O que é o Schema?
+
+O **Schema** define a estrutura da API GraphQL.
+
+Ele funciona como um contrato que informa:
+
+* Quais dados existem
+* Quais campos podem ser consultados
+* Quais tipos esses campos possuem
+* Quais operações podem ser realizadas
+
+Exemplo:
+
+```graphql
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+```
+
+Nesse exemplo estamos dizendo que existe um tipo chamado `User` que possui:
+
+```text
+id
+name
+email
+```
+
+---
+
+## O que são Types?
+
+Os **Types** representam os tipos de dados disponíveis dentro da API.
+
+Exemplo:
+
+```graphql
+type User {
+  id: ID!
+  name: String!
+  age: Int
+}
+```
+
+Alguns tipos básicos do GraphQL são:
+
+```text
+String  → texto
+Int     → número inteiro
+Float   → número decimal
+Boolean → verdadeiro ou falso
+ID      → identificador único
+```
+
+O símbolo `!` significa que aquele valor é **obrigatório e não pode ser null**.
+
+Exemplo:
+
+```graphql
+name: String!
+```
+
+Significa que `name` obrigatoriamente deve possuir um valor.
+
+---
+
+## O que são Fields?
+
+Os **Fields** são os campos existentes dentro de um Type.
+
+Por exemplo:
+
+```graphql
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+```
+
+Nesse caso:
+
+```text
+id
+name
+email
+```
+
+são fields do tipo `User`.
+
+O cliente pode escolher quais desses campos deseja receber.
+
+---
+
+## O que é uma Query?
+
+Uma **Query** é utilizada para **consultar ou buscar dados**.
+
+Ela funciona de maneira semelhante ao `GET` em uma API REST.
+
+Exemplo:
+
+```graphql
+type Query {
+  users: [User]
+}
+```
+
+Consulta:
+
+```graphql
+query {
+  users {
+    id
+    name
+  }
+}
+```
+
+Essa consulta solicita uma lista de usuários contendo apenas:
+
+```text
+id
+name
+```
+
+---
+
+## O que é uma Mutation?
+
+Uma **Mutation** é utilizada para **alterar dados**.
+
+Podemos utilizar Mutations para operações como:
+
+```text
+Criar
+Atualizar
+Excluir
+```
+
+Ela pode ser comparada, de forma simplificada, aos métodos:
+
+```text
+POST
+PUT / PATCH
+DELETE
+```
+
+utilizados em APIs REST.
+
+Exemplo:
+
+```graphql
+type Mutation {
+  createUser(name: String!, email: String!): User
+}
+```
+
+Executando:
+
+```graphql
+mutation {
+  createUser(
+    name: "Milena"
+    email: "milena@email.com"
+  ) {
+    id
+    name
+    email
+  }
+}
+```
+
+O GraphQL executa a criação do usuário e retorna somente os campos solicitados.
+
+---
+
+## Diferença entre Query e Mutation
+
+A principal diferença é a finalidade da operação.
+
+### Query
+
+Utilizada para **buscar dados**.
+
+```graphql
+query {
+  users {
+    name
+  }
+}
+```
+
+Podemos associar aproximadamente ao:
+
+```text
+GET
+```
+
+do REST.
+
+### Mutation
+
+Utilizada para **modificar dados**.
+
+```graphql
+mutation {
+  createUser(name: "Milena") {
+    id
+    name
+  }
+}
+```
+
+Podemos associar aproximadamente aos métodos:
+
+```text
+POST
+PUT
+PATCH
+DELETE
+```
+
+do REST.
+
+Resumindo:
+
+```text
+Query    → leitura / consulta de dados
+Mutation → criação, alteração ou remoção de dados
+```
+
+---
+
+## O que são Resolvers?
+
+Os **Resolvers** são funções responsáveis por buscar ou manipular os dados solicitados pelo cliente.
+
+Podemos pensar no Resolver como a função que responde:
+
+> "Quando alguém solicitar esse campo ou essa operação, o que o servidor deve fazer?"
+
+Por exemplo, temos esta Query no Schema:
+
+```graphql
+type Query {
+  users: [User]
+}
+```
+
+Precisamos criar um Resolver para dizer de onde esses usuários serão buscados.
+
+Exemplo:
+
+```javascript
+const resolvers = {
+  Query: {
+    users: () => {
+      return users;
+    }
+  }
+};
+```
+
+Quando o cliente executar:
+
+```graphql
+query {
+  users {
+    id
+    name
+  }
+}
+```
+
+O GraphQL procura o Resolver correspondente:
+
+```javascript
+Query.users
+```
+
+E executa essa função.
+
+O Resolver pode buscar dados de diferentes lugares, como:
+
+```text
+Banco de dados
+Outra API
+Arquivo
+Serviço externo
+Cache
+```
+
+Portanto:
+
+**Schema define o que pode ser solicitado.**
+
+**Resolver define como obter ou modificar esses dados.**
+
+---
+
+## Fluxo básico de uma requisição GraphQL
+
+Podemos imaginar o seguinte fluxo:
+
+```text
+Cliente
+   ↓
+Envia uma Query ou Mutation
+   ↓
+Endpoint /graphql
+   ↓
+GraphQL analisa o Schema
+   ↓
+Identifica os Resolvers necessários
+   ↓
+Resolvers buscam ou alteram os dados
+   ↓
+GraphQL retorna apenas os campos solicitados
+```
+
+Exemplo:
+
+```graphql
+query {
+  user(id: 1) {
+    name
+    email
+  }
+}
+```
+
+O servidor identifica que o cliente deseja:
+
+```text
+user
+ ├── name
+ └── email
+```
+
+Executa o Resolver responsável por buscar esse usuário e retorna somente esses campos.
+
+---
+
+## Estrutura básica de uma API GraphQL
+
+Uma API GraphQL costuma possuir três elementos principais:
+
+### Schema
+
+Define quais dados e operações existem.
+
+```graphql
+type Query {
+  users: [User]
+}
+```
+
+### Resolver
+
+Define como esses dados serão obtidos.
+
+```javascript
+const resolvers = {
+  Query: {
+    users: () => users
+  }
+};
+```
+
+### Query do cliente
+
+Define quais dados o cliente deseja receber.
+
+```graphql
+query {
+  users {
+    name
+  }
+}
+```
+
+Podemos resumir assim:
+
+```text
+Schema   → O que pode ser solicitado?
+Query    → O que o cliente está solicitando?
+Resolver → Como o servidor encontra essa informação?
+```
+
+---
+
+## Vantagens do GraphQL
+
+Algumas das principais vantagens são:
+
+* O cliente escolhe os campos que deseja receber
+* Redução de dados desnecessários
+* Possibilidade de buscar dados relacionados em uma única consulta
+* Normalmente utiliza apenas um endpoint
+* Schema bem definido e tipado
+* Facilita a evolução da API
+* Pode ser muito útil quando diferentes clientes precisam de conjuntos diferentes de dados
+
+Por exemplo:
+
+```text
+Aplicação Web
+Aplicativo Mobile
+Sistema interno
+```
+
+Todos podem utilizar a mesma API GraphQL, mas solicitar informações diferentes.
+
+---
+
+## Pontos de atenção
+
+GraphQL também possui desafios.
+
+Consultas muito complexas podem gerar alto consumo de recursos no servidor.
+
+Por isso, é importante utilizar estratégias como:
+
+```text
+Autenticação
+Autorização
+Limitação de consultas
+Paginação
+Cache
+Validação
+Monitoramento
+```
+
+Além disso, GraphQL não significa automaticamente que uma API será melhor ou mais rápida.
+
+A escolha entre **REST e GraphQL depende das necessidades do projeto**.
+
+---
+
+## Resumo
+
+```text
+GraphQL
+│
+├── Schema
+│   └── Define a estrutura e as operações disponíveis
+│
+├── Types
+│   └── Representam os tipos de dados
+│
+├── Fields
+│   └── Representam os campos dos dados
+│
+├── Query
+│   └── Consulta dados
+│
+├── Mutation
+│   └── Altera dados
+│
+└── Resolvers
+    └── Funções que buscam ou manipulam os dados
+```
+
+Uma forma simples de lembrar:
+
+```text
+REST
+Cliente acessa endpoints definidos pelo servidor.
+
+GraphQL
+Cliente informa quais dados deseja receber.
+```

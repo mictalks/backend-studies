@@ -1,0 +1,105 @@
+# Aula 02 - REST na prática com Node.js
+
+## O que veremos nessa aula
+
+* Implementação de uma API REST usando Node.js e Express
+* Criação de endpoints seguindo princípios REST
+* Uso dos principais métodos HTTP
+* Organização de recursos através de URLs
+
+## O que é REST?
+
+REST (**Representational State Transfer**) é um **estilo arquitetural** utilizado para organizar APIs e a comunicação entre cliente e servidor.
+
+Em uma API REST, os dados são tratados como **recursos**, que são identificados por URLs.
+
+Exemplo:
+
+```text
+/users
+/products
+/orders
+```
+
+As ações realizadas nesses recursos são definidas pelos métodos HTTP:
+
+```text
+GET     → buscar
+POST    → criar
+PUT     → atualizar
+PATCH   → atualizar parcialmente
+DELETE  → excluir
+```
+
+Exemplo:
+
+```text
+GET /users
+```
+
+Busca os usuários.
+
+```text
+POST /users
+```
+
+Cria um novo usuário.
+
+```text
+DELETE /users/10
+```
+
+Exclui o usuário de ID `10`.
+
+O REST também utiliza o princípio **stateless**, ou seja, cada requisição deve possuir as informações necessárias para ser processada, sem depender de requisições anteriores.
+
+*Stateless significa que cada requisição feita para a API deve conter as informações necessárias para ser processada. O servidor não deve depender de requisições anteriores para entender a requisição atual. Isso não significa que o sistema não possa armazenar dados em um banco de dados.*
+
+## O que é RESTful?
+
+**RESTful** é o termo utilizado para descrever uma API que **segue os princípios e boas práticas do REST**.
+
+Exemplo de uma API RESTful:
+
+```text
+GET    /users
+GET    /users/10
+POST   /users
+PUT    /users/10
+DELETE /users/10
+```
+
+Nesse padrão:
+
+* `/users` representa o recurso
+* `/10` identifica um recurso específico
+* O método HTTP indica qual ação será realizada;
+
+### REST x RESTful
+
+De forma simples:
+
+```text
+REST     → conjunto de princípios arquiteturais
+RESTful  → API que aplica esses princípios
+```
+
+Exemplo:
+
+```text
+/getUsers
+/createUser
+/deleteUser
+```
+
+Não segue tão bem o padrão REST, pois a ação está escrita na URL.
+
+Em uma API RESTful, preferimos:
+
+```text
+GET    /users
+POST   /users
+DELETE /users/10
+```
+
+A URL representa o recurso e o método HTTP representa a ação.
